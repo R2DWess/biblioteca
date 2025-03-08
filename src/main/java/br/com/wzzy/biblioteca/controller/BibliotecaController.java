@@ -4,6 +4,7 @@ import br.com.wzzy.biblioteca.model.LivroModel;
 import br.com.wzzy.biblioteca.repository.LivroRepository;
 import br.com.wzzy.biblioteca.service.LivroService;
 import br.com.wzzy.biblioteca.service.LivroServiceImpl;
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,24 +16,21 @@ import java.util.List;
 @RequestMapping("v1/biblioteca")
 public class BibliotecaController {
 
-    private final LivroServiceImpl livroService;
+    private final LivroService livroService;
     private final LivroRepository livroRepository;
 
     @Autowired
-    public BibliotecaController(LivroServiceImpl livroService1, LivroRepository livroRepository) {
-        this.livroService = livroService1;
+    public BibliotecaController(LivroService livroService, LivroRepository livroRepository) {
+        this.livroService = livroService;
         this.livroRepository = livroRepository;
     }
 
-//    @PostMapping("/cadastrar-livro")
-//    public ResponseEntity<LivroModel> cadastrarLivro(@RequestBody LivroModel livroModel) {
-//        try {
-//            LivroModel livroCadastrado = livroService.cadastrarLivro(livroModel);
-//            return new ResponseEntity<>(livroCadastrado, HttpStatus.CREATED);
-//        } catch (Exception exception) {
-//            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-//        }
-//    }
+    @PostMapping
+    public ResponseEntity<LivroModel> cadastrarLivro(@RequestBody LivroModel livroModel) throws BadRequestException {
+        LivroModel novoLivro = livroService.cadastrarLivro(livroModel);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoLivro);
+    }
+
 
     @PatchMapping("/atualizar-livro")
     public ResponseEntity<LivroModel> atualizarLivro(@RequestBody LivroModel livroModel) {
@@ -75,10 +73,5 @@ public class BibliotecaController {
         } catch (RuntimeException e) {
             return e.getMessage();
         }
-    }
-
-    @GetMapping("/mostrar-dados")
-    public LivroModel mostrar() {
-        return livroService.mostrarDados();
     }
 }
