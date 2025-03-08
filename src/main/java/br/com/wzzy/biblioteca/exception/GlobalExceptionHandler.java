@@ -13,4 +13,10 @@ public class GlobalExceptionHandler {
     public String handleLivroCadastradoException(LivroCadastradoException ex) {
         return ex.getMessage();
     }
+
+    @ExceptionHandler(ClienteCadastradoException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleClienteCadastradoException(ClienteCadastradoException ex) {
+        return ex.getMessage();
+    }
 }
