@@ -2,7 +2,7 @@ package br.com.wzzy.biblioteca.service;
 
 import br.com.wzzy.biblioteca.exception.ClienteCadastradoException;
 import br.com.wzzy.biblioteca.exception.ClienteNaoEncontradoException;
-import br.com.wzzy.biblioteca.model.usuarios.ClienteModel;
+import br.com.wzzy.biblioteca.model.ClienteModel;
 import br.com.wzzy.biblioteca.repository.ClienteRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,5 @@
 package br.com.wzzy.biblioteca.model;
 
-import br.com.wzzy.biblioteca.model.usuarios.ClienteModel;
-import br.com.wzzy.biblioteca.model.usuarios.FuncionarioModel;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
