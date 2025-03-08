@@ -2,12 +2,8 @@ package br.com.wzzy.biblioteca.controller;
 
 import br.com.wzzy.biblioteca.model.ClienteModel;
 import br.com.wzzy.biblioteca.service.ClienteService;
-import ch.qos.logback.core.net.server.Client;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,7 +20,7 @@ public class ClienteController {
     }
 
     @PostMapping("/cadastrar")
-    public ClienteModel cadastrarCliente (ClienteModel clienteModel){
+    public ClienteModel cadastrarCliente (@RequestBody ClienteModel clienteModel){
         return clienteService.cadastrarCliente(clienteModel);
     }
 
@@ -33,6 +29,15 @@ public class ClienteController {
         return clienteService.listarClientes();
     }
 
+    @DeleteMapping("deletar/{idCliente}")
+    public void deletarClientePorId(@PathVariable Long idCliente) {
+        clienteService.deletarClientePorId(idCliente);
+    }
 
+    @DeleteMapping("/deletar-todos-clientes")
+    public void deletarTodosClientes(){
+        clienteService.deletarTodosClientes();
+
+    }
 
 }

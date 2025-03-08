@@ -8,4 +8,8 @@ public interface ClienteService {
     ClienteModel cadastrarCliente(ClienteModel clienteModel);
 
     List<ClienteModel> listarClientes();
+
+    void deletarClientePorId(Long idCliente);
+
+    void deletarTodosClientes();
 }
