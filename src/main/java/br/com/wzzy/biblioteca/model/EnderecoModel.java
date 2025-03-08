@@ -1,4 +1,4 @@
-package br.com.wzzy.biblioteca.model.usuarios;
+package br.com.wzzy.biblioteca.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

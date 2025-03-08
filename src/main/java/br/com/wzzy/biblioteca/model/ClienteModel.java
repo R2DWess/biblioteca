@@ -1,4 +1,4 @@
-package br.com.wzzy.biblioteca.model.usuarios;
+package br.com.wzzy.biblioteca.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,15 +11,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "funcionario")
-public class FuncionarioModel {
+@Table(name = "cliente")
+public class ClienteModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idFuncionario;
+    private Long idCliente;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "dados_pessoais_model_id_dados_pessoais")
     private DadosPessoaisModel dadosPessoaisModel;
-
 }
