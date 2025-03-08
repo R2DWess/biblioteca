@@ -1,4 +1,4 @@
-package br.com.wzzy.biblioteca.model;
+package br.com.wzzy.biblioteca.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,13 +11,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "contato")
-public class ContatoModel {
+@Table(name = "tipo_pessoa")
+public class TipoPessoa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idContato;
-
-    private String telefone;
-    private String email;
+    private Long idTipoPessoa;
+    private String descricao;
 }

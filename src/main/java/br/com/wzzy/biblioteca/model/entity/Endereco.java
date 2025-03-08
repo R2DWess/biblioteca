@@ -1,4 +1,4 @@
-package br.com.wzzy.biblioteca.model;
+package br.com.wzzy.biblioteca.model.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "endereco")
-public class EnderecoModel {
+public class Endereco {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +23,4 @@ public class EnderecoModel {
     private String estado;
     private String pais;
     private String cep;
-
 }

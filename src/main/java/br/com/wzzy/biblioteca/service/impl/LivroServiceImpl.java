@@ -1,12 +1,12 @@
-package br.com.wzzy.biblioteca.service;
+package br.com.wzzy.biblioteca.service.impl;
 
 import br.com.wzzy.biblioteca.exception.LivroCadastradoException;
-import br.com.wzzy.biblioteca.model.LivroModel;
 import br.com.wzzy.biblioteca.repository.BibliotecaRepository;
 import br.com.wzzy.biblioteca.repository.ClienteRepository;
 import br.com.wzzy.biblioteca.repository.FuncionarioRepository;
 import br.com.wzzy.biblioteca.repository.LivroRepository;
 import br.com.wzzy.biblioteca.repository.UsuarioRepository;
+import br.com.wzzy.biblioteca.service.LivroService;
 import jakarta.transaction.Transactional;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;

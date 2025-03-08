@@ -1,9 +1,9 @@
-package br.com.wzzy.biblioteca.service;
+package br.com.wzzy.biblioteca.service.impl;
 
 import br.com.wzzy.biblioteca.exception.ClienteCadastradoException;
 import br.com.wzzy.biblioteca.exception.ClienteNaoEncontradoException;
-import br.com.wzzy.biblioteca.model.ClienteModel;
 import br.com.wzzy.biblioteca.repository.ClienteRepository;
+import br.com.wzzy.biblioteca.service.ClienteService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ClienteServiceImpl implements ClienteService{
+public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteRepository clienteRepository;
 
