@@ -1,11 +1,12 @@
 package br.com.wzzy.biblioteca.repository;
 
+import br.com.wzzy.biblioteca.model.entity.Livro;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface LivroRepository extends JpaRepository<LivroModel, Long> {
-    LivroModel findByIdLivro(long idLivro);
+public interface LivroRepository extends JpaRepository<Livro, Long> {
+    Livro findByIdLivro(long idLivro);
 
     void deleteByIdLivro(Long idLivro);
 
@@ -15,6 +16,6 @@ public interface LivroRepository extends JpaRepository<LivroModel, Long> {
 
     boolean existsByTituloLivro(String tituloLivro);
 
-    Optional<LivroModel> findByTituloLivroAndAutorAndCategoria(String titulo, String categoria, String autor);
+    Optional<Livro> findByTituloLivroAndAutorAndCategoria(String titulo, String categoria, String autor);
 
 }
