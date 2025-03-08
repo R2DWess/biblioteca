@@ -1,4 +1,4 @@
-package br.com.wzzy.biblioteca.model;
+package br.com.wzzy.biblioteca.model.usuarios;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,5 +17,8 @@ public class ClienteModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCliente;
-    private String nomeCliente;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "dados_pessoais_model_id_dados_pessoais")
+    private DadosPessoaisModel dadosPessoaisModel;
 }
