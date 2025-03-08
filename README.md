@@ -2,7 +2,7 @@
   <img src="https://iili.io/3FFO5cF.png" alt="Universidade Católica de Brasília">
 </p>
 
-## PROJETO PESSOAL - SISTEMA DE GESTÃO DE BIBLIOTECA:
+## PROJETO PESSOAL - SISTEMA DE GESTÃO DE BIBLIOTECA 📚:
 
 #### 📖 Descrição:
 Projeto voltado para a criação de um sistema de gerenciamento de biblioteca, permitindo o cadastro e controle de livros, usuários e empréstimos. O sistema inclui funcionalidades para realizar operações como registro de empréstimos, devoluções e controle de multas.
