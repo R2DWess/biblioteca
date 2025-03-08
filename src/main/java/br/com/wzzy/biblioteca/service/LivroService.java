@@ -1,6 +1,5 @@
 package br.com.wzzy.biblioteca.service;
 
-import br.com.wzzy.biblioteca.model.LivroModel;
 import jakarta.transaction.Transactional;
 import org.apache.coyote.BadRequestException;
 

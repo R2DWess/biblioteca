@@ -1,7 +1,5 @@
 package br.com.wzzy.biblioteca.controller;
 
-import br.com.wzzy.biblioteca.model.LivroModel;
-import br.com.wzzy.biblioteca.repository.LivroRepository;
 import br.com.wzzy.biblioteca.service.LivroService;
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;

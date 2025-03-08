@@ -1,6 +1,5 @@
 package br.com.wzzy.biblioteca.controller;
 
-import br.com.wzzy.biblioteca.model.ClienteModel;
 import br.com.wzzy.biblioteca.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
