@@ -4,6 +4,7 @@ import br.com.wzzy.biblioteca.exception.ClienteCadastradoException;
 import br.com.wzzy.biblioteca.exception.ClienteNaoEncontradoException;
 import br.com.wzzy.biblioteca.model.ClienteModel;
 import br.com.wzzy.biblioteca.repository.ClienteRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +39,35 @@ public class ClienteServiceImpl implements ClienteService{
 
         return listarClientes;
 
+    }
+
+    public boolean encontrarClientePorId(Long idCliente) {
+
+        boolean clienteEncontrado = clienteRepository.existsByIdCliente(idCliente);
+
+        if (clienteEncontrado) {
+            return clienteEncontrado;
+        }
+            throw new ClienteNaoEncontradoException("Cliente com id " + idCliente + " não encontrado");
+
+    }
+
+    @Override
+    @Transactional
+    public void deletarClientePorId(Long idCliente){
+
+        boolean removerClientePorId = encontrarClientePorId(idCliente);
+
+        clienteRepository.deleteByIdCliente(idCliente);
+    }
+
+    @Override
+    public void deletarTodosClientes(){
+        List<ClienteModel> deletarTodosClientesEncontrados = listarClientes();
+        if(deletarTodosClientesEncontrados.isEmpty()){
+            throw new ClienteNaoEncontradoException("Nenhum cliente foi encontrado!");
+        }
+
+        clienteRepository.deleteAll();
     }
 }
