@@ -19,4 +19,10 @@ public class GlobalExceptionHandler {
     public String handleClienteCadastradoException(ClienteCadastradoException ex) {
         return ex.getMessage();
     }
+
+    @ExceptionHandler(ClienteNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public String handleClienteNaoEncontradoException(ClienteNaoEncontradoException ex) {
+        return ex.getMessage();
+    }
 }

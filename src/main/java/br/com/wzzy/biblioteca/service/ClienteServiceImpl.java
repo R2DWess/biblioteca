@@ -1,6 +1,7 @@
 package br.com.wzzy.biblioteca.service;
 
 import br.com.wzzy.biblioteca.exception.ClienteCadastradoException;
+import br.com.wzzy.biblioteca.exception.ClienteNaoEncontradoException;
 import br.com.wzzy.biblioteca.model.ClienteModel;
 import br.com.wzzy.biblioteca.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,13 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     public List<ClienteModel> listarClientes(){
-        return clienteRepository.findAll();
+        List<ClienteModel> listarClientes = clienteRepository.findAll();
+
+        if(listarClientes.isEmpty()) {
+            throw new ClienteNaoEncontradoException("Nenhum cliente foi encontrado!");
+        }
+
+        return listarClientes;
 
     }
 }
