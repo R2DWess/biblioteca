@@ -33,46 +33,41 @@ public class ClienteServiceImpl implements ClienteService {
         Cliente clienteSalvo = clienteRepository.save(cliente);
         return ClienteMapper.paraClienteDTO(clienteSalvo);
     }
-//
-//    @Override
-//    public List<ClienteModel> listarClientes(){
-//        List<ClienteModel> listarClientes = clienteRepository.findAll();
-//
-//        if(listarClientes.isEmpty()) {
-//            throw new ClienteNaoEncontradoException("Nenhum cliente foi encontrado!");
-//        }
-//
-//        return listarClientes;
-//
-//    }
-//
-//    public boolean encontrarClientePorId(Long idCliente) {
-//
-//        boolean clienteEncontrado = clienteRepository.existsByIdCliente(idCliente);
-//
-//        if (clienteEncontrado) {
-//            return clienteEncontrado;
-//        }
-//            throw new ClienteNaoEncontradoException("Cliente com id " + idCliente + " não encontrado");
-//
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void deletarClientePorId(Long idCliente){
-//
-//        boolean removerClientePorId = encontrarClientePorId(idCliente);
-//
-//        clienteRepository.deleteByIdCliente(idCliente);
-//    }
-//
-//    @Override
-//    public void deletarTodosClientes(){
-//        List<ClienteModel> deletarTodosClientesEncontrados = listarClientes();
-//        if(deletarTodosClientesEncontrados.isEmpty()){
-//            throw new ClienteNaoEncontradoException("Nenhum cliente foi encontrado!");
-//        }
-//
-//        clienteRepository.deleteAll();
-//    }
+
+    @Override
+    public ClienteDTO atualizarCliente(ClienteDTO clienteDTO) {
+
+        Cliente cliente = clienteRepository.findByIdCliente(clienteDTO.getIdCliente());
+
+        if (clienteDTO.getIdCliente() == cliente.getIdCliente()) {
+            return clienteDTO = cadastrarCliente(clienteDTO);
+        }
+        throw new ClienteNaoEncontradoException("O cliente com o id" + clienteDTO.getIdCliente() + " não foi encontrado");
+
+    }
+
+    @Override
+    public Cliente encontrarClientePorId(Long idCliente){
+
+        return clienteRepository.findByIdCliente(idCliente);
+    }
+
+
+    @Override
+    public List<Cliente> listarClientes(){
+        return clienteRepository.findAll();
+    }
+
+    @Transactional
+    @Override
+    public void deletarCliente(Long idCliente){
+        clienteRepository.deleteByIdCliente(idCliente);
+    }
+
+    @Transactional
+    @Override
+    public void deletarTodosClientes(){
+        clienteRepository.deleteAll();
+    }
+
 }
