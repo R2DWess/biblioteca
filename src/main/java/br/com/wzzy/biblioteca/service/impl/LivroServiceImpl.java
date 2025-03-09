@@ -50,6 +50,7 @@ public class LivroServiceImpl implements LivroService {
     public boolean verificarExistenciaIdLivro(Long idLivro) {
 
         boolean livroEncontrado = livroRepository.existsById(idLivro);
+
         if (livroEncontrado) {
             return livroEncontrado;
         } else {
@@ -63,8 +64,6 @@ public class LivroServiceImpl implements LivroService {
     public LivroDTO atualizarLivro(LivroDTO livroDTO) {
 
         boolean verificarIdLivro = verificarExistenciaIdLivro(livroDTO.getIdLivro());
-
-//        List<Livro> encontrarLivro = recuperarLivroPorIdLivro(livroDTO.getIdLivro());
 
         return livroDTO = cadastrarLivro(livroDTO);
 
@@ -81,11 +80,5 @@ public class LivroServiceImpl implements LivroService {
     public void deletarTodos(){
         livroRepository.deleteAll();
     }
-//
-//    @Override
-//    public Livro livroPorId(Long idLivro){
-//
-//        return recu;
-//    }
 
 }

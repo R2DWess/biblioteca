@@ -1,6 +1,7 @@
 package br.com.wzzy.biblioteca.controller;
 
 import br.com.wzzy.biblioteca.dto.ClienteDTO;
+import br.com.wzzy.biblioteca.model.entity.Cliente;
 import br.com.wzzy.biblioteca.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,24 +21,32 @@ public class ClienteController {
     }
 
     @PostMapping("/cadastrar")
-    public ClienteDTO cadastrarCliente(@RequestBody ClienteDTO clienteModel){
-        return clienteService.cadastrarCliente(clienteModel);
+    public ClienteDTO cadastrarCliente(@RequestBody ClienteDTO clienteDTO){
+        return clienteService.cadastrarCliente(clienteDTO);
     }
-//
-//    @GetMapping("listar-clientes")
-//    public List<ClienteModel> listarClientes (){
-//        return clienteService.listarClientes();
-//    }
-//
-//    @DeleteMapping("deletar/{idCliente}")
-//    public void deletarClientePorId(@PathVariable Long idCliente) {
-//        clienteService.deletarClientePorId(idCliente);
-//    }
-//
-//    @DeleteMapping("/deletar-todos-clientes")
-//    public void deletarTodosClientes(){
-//        clienteService.deletarTodosClientes();
-//
-//    }
 
+    @PatchMapping("/atualizar")
+    public ClienteDTO atualizarCliente(@RequestBody ClienteDTO clienteDTO){
+        return clienteService.atualizarCliente(clienteDTO);
+    }
+
+    @GetMapping("/listar-clientes")
+    public List<Cliente> listarClientes(){
+        return clienteService.listarClientes();
+    }
+
+    @DeleteMapping("/deletar/{idCliente}")
+    public void deletarCliente(@PathVariable Long idCliente){
+        clienteService.deletarCliente(idCliente);
+    }
+
+    @DeleteMapping("/deletar-todos")
+    public void deletarTodosClientes(){
+        clienteService.deletarTodosClientes();
+    }
+
+    @GetMapping("/{idCliente}")
+    public Cliente encontrarClientePorId(@PathVariable Long idCliente){
+        return clienteService.encontrarClientePorId(idCliente);
+    }
 }
