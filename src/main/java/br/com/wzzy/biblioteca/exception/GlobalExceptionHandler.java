@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(LivroNaoEncontradoException.class)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleLivroeNaoEncontradoException(LivroNaoEncontradoException ex) {
         return ex.getMessage();
     }
