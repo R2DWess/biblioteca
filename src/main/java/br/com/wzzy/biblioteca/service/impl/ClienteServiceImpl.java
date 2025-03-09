@@ -25,7 +25,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public ClienteDTO cadastrarCliente(ClienteDTO clienteDTO) {
-        if (clienteDTO.getDadosPessoaisDTO().getNome().isEmpty()) {
+        if (clienteDTO == null || clienteDTO.getDadosPessoaisDTO().getNome().isEmpty()) {
             throw new ClienteCadastradoException("Dados incorretos!");
         }
 
@@ -37,31 +37,43 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public ClienteDTO atualizarCliente(ClienteDTO clienteDTO) {
 
-        Cliente cliente = clienteRepository.findByIdCliente(clienteDTO.getIdCliente());
+        Cliente clienteExistente = encontrarClientePorId(clienteDTO.getIdCliente());
 
-        if (clienteDTO.getIdCliente() == cliente.getIdCliente()) {
-            return clienteDTO = cadastrarCliente(clienteDTO);
-        }
-        throw new ClienteNaoEncontradoException("O cliente com o id" + clienteDTO.getIdCliente() + " não foi encontrado");
+        return cadastrarCliente(clienteDTO);
 
     }
 
     @Override
     public Cliente encontrarClientePorId(Long idCliente){
 
-        return clienteRepository.findByIdCliente(idCliente);
+        if (idCliente == null) {
+            throw new ClienteNaoEncontradoException("ID do cliente não pode ser nulo.");
+        }
+
+        Cliente cliente = clienteRepository.findByIdCliente(idCliente);
+        if (cliente == null) {
+            throw new ClienteNaoEncontradoException("O cliente com o ID " + idCliente + " não foi encontrado.");
+        }
+
+
+        return cliente;
     }
 
 
     @Override
-    public List<Cliente> listarClientes(){
-        return clienteRepository.findAll();
+    public List<Cliente> listarClientes() {
+        List<Cliente> clientes = clienteRepository.findAll();
+        if (clientes.isEmpty()) {
+            throw new ClienteNaoEncontradoException("Nenhum cliente encontrado.");
+        }
+        return clientes;
     }
 
     @Transactional
     @Override
-    public void deletarCliente(Long idCliente){
-        clienteRepository.deleteByIdCliente(idCliente);
+    public void deletarCliente(Long idCliente) {
+        Cliente clienteExistente = encontrarClientePorId(idCliente);
+        clienteRepository.deleteByIdCliente(clienteExistente.getIdCliente());
     }
 
     @Transactional
