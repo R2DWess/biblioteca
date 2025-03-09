@@ -11,8 +11,6 @@ public interface LivroService {
 
     LivroDTO cadastrarLivro(LivroDTO livroDTO);
 
-//    boolean encontrarIdLivro(Long idLivro);
-
     List<Livro> recuperarLivroPorIdLivro(Long idLivro);
 
     boolean verificarExistenciaIdLivro(Long idLivro);
@@ -25,5 +23,4 @@ public interface LivroService {
     @Transactional
     void deletarTodos();
 
-//    Livro livroPorId(Long idLivro);
 }
