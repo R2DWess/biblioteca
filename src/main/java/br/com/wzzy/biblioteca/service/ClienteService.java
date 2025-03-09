@@ -11,10 +11,6 @@ public interface ClienteService {
 
     ClienteDTO atualizarCliente(ClienteDTO clienteDTO);
 
-//    ClienteDTO encontrarClientePorId(ClienteDTO clienteDTO);
-
-//    Cliente recuperarClientePorId(Long idCliente);
-
     Cliente encontrarClientePorId(Long idCliente);
 
     List<Cliente> listarClientes();

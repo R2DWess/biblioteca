@@ -16,6 +16,6 @@ public class Cliente {
     private Long idCliente;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "dados_pessoais_id_dados_pessoais")
+    @JoinColumn(name = "dados_pessoais_idDadosPessoais")
     private DadosPessoais dadosPessoais;
 }
