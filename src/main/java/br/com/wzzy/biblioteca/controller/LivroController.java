@@ -24,6 +24,12 @@ public class LivroController {
         return ResponseEntity.status(HttpStatus.CREATED).body(novoLivro);
     }
 
+    @PatchMapping("/atualizar-livros")
+    public ResponseEntity<LivroDTO> atualizarLivro(@RequestBody LivroDTO livroDTO) {
+        LivroDTO novoLivro = livroService.atualizarLivro(livroDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoLivro);
+    }
+
 
 //    @PatchMapping("/atualizar-livro")
 //    public ResponseEntity<LivroModel> atualizarLivro(@RequestBody LivroModel livroModel) {

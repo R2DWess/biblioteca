@@ -2,6 +2,7 @@ package br.com.wzzy.biblioteca.service.impl;
 
 import br.com.wzzy.biblioteca.dto.LivroDTO;
 import br.com.wzzy.biblioteca.exception.LivroCadastradoException;
+import br.com.wzzy.biblioteca.exception.LivroNaoEncontradoException;
 import br.com.wzzy.biblioteca.mapper.LivroMapper;
 import br.com.wzzy.biblioteca.model.entity.Livro;
 
@@ -32,6 +33,30 @@ public class LivroServiceImpl implements LivroService {
         Livro livro = LivroMapper.paraEntidadeLivro(livroDTO);
         Livro livroSalvo = livroRepository.save(livro);
         return LivroMapper.paraLivroDTO(livroSalvo);
+    }
+
+    public boolean encontrarIdLivro(Long idLivro) {
+
+        boolean livroEncontraro = livroRepository.existsById(idLivro);
+        if (!livroEncontraro) {
+            throw new LivroNaoEncontradoException("Livro com id " + idLivro + " não encontrado!");
+        }
+        return livroEncontraro;
+    }
+
+    @Override
+    public LivroDTO atualizarLivro(LivroDTO livroDTO) {
+
+        boolean encontrarLivro = encontrarIdLivro(livroDTO.getIdLivro());
+
+        if (encontrarLivro) {
+            throw new LivroCadastradoException("Livro já cadastrado!");
+        }
+
+        return livroDTO = cadastrarLivro(livroDTO);
+//        Livro livro = LivroMapper.paraEntidadeLivro(livroDTO);
+//        Livro livroSalvo = livroRepository.save(livro);
+//        return LivroMapper.paraLivroDTO(livroSalvo);
     }
 
 //    public LivroModel tratativarParaAtualizarLivro(LivroModel livroModel) throws BadRequestException {
