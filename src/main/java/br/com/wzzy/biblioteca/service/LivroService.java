@@ -9,6 +9,8 @@ import java.util.List;
 public interface LivroService {
     LivroDTO cadastrarLivro(LivroDTO livroDTO);
 
+    LivroDTO atualizarLivro(LivroDTO livroDTO);
+
 
 //    LivroModel cadastrarLivro(LivroModel livroModel) throws BadRequestException;
 //

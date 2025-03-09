@@ -25,4 +25,10 @@ public class GlobalExceptionHandler {
     public String handleClienteNaoEncontradoException(ClienteNaoEncontradoException ex) {
         return ex.getMessage();
     }
+
+    @ExceptionHandler(LivroNaoEncontradoException.class)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public String handleLivroeNaoEncontradoException(LivroNaoEncontradoException ex) {
+        return ex.getMessage();
+    }
 }
