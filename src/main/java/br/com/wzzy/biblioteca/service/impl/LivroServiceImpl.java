@@ -8,9 +8,14 @@ import br.com.wzzy.biblioteca.model.entity.Livro;
 
 import br.com.wzzy.biblioteca.repository.LivroRepository;
 import br.com.wzzy.biblioteca.service.LivroService;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+@Slf4j
 @Service
 public class LivroServiceImpl implements LivroService {
 
@@ -35,82 +40,52 @@ public class LivroServiceImpl implements LivroService {
         return LivroMapper.paraLivroDTO(livroSalvo);
     }
 
-    public boolean encontrarIdLivro(Long idLivro) {
+    @Override
+    public List<Livro> recuperarLivroPorIdLivro(Long idLivro) {
 
-        boolean livroEncontraro = livroRepository.existsById(idLivro);
-        if (!livroEncontraro) {
-            throw new LivroNaoEncontradoException("Livro com id " + idLivro + " não encontrado!");
-        }
-        return livroEncontraro;
+        return livroRepository.findByIdLivro(idLivro);
     }
+
+    @Override
+    public boolean verificarExistenciaIdLivro(Long idLivro) {
+
+        boolean livroEncontrado = livroRepository.existsById(idLivro);
+        if (livroEncontrado) {
+            return livroEncontrado;
+        } else {
+            throw new LivroNaoEncontradoException("Livro com id " + idLivro + " não encontrado!");
+
+        }
+    }
+
 
     @Override
     public LivroDTO atualizarLivro(LivroDTO livroDTO) {
 
-        boolean encontrarLivro = encontrarIdLivro(livroDTO.getIdLivro());
+        boolean verificarIdLivro = verificarExistenciaIdLivro(livroDTO.getIdLivro());
 
-        if (encontrarLivro) {
-            throw new LivroCadastradoException("Livro já cadastrado!");
-        }
+//        List<Livro> encontrarLivro = recuperarLivroPorIdLivro(livroDTO.getIdLivro());
 
         return livroDTO = cadastrarLivro(livroDTO);
-//        Livro livro = LivroMapper.paraEntidadeLivro(livroDTO);
-//        Livro livroSalvo = livroRepository.save(livro);
-//        return LivroMapper.paraLivroDTO(livroSalvo);
+
     }
 
-//    public LivroModel tratativarParaAtualizarLivro(LivroModel livroModel) throws BadRequestException {
-//        return livroRepository.save(livroModel);
-//    }
-//
-//    public ResponseEntity<LivroModel> tratativarParaCadastrarLivro(LivroModel livroModel) {
-//        Optional<LivroModel> livroJaCadastrado = livroRepository.findByTituloLivroAndAutorAndCategoria(
-//                livroModel.getTituloLivro().trim(),
-//                livroModel.getAutor().trim(),
-//                livroModel.getCategoria().trim()
-//        );
-//
-//        if (livroJaCadastrado.isPresent()) {
-//            throw new LivroCadastradoException("Livro já cadastrado!");
-//        }
-//
-//        LivroModel livroSalvo = livroRepository.save(livroModel);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(livroSalvo);
-//    }
-//
+    @Transactional
+    @Override
+    public void deletarLivroPorId(Long idLivro){
+        livroRepository.deleteByIdLivro(idLivro);
+    }
+
+    @Transactional
+    @Override
+    public void deletarTodos(){
+        livroRepository.deleteAll();
+    }
 //
 //    @Override
-//    public LivroModel cadastrarLivro(LivroModel livroModel) throws BadRequestException {
-//        return tratativarParaCadastrarLivro(livroModel).getBody();
-//    }
+//    public Livro livroPorId(Long idLivro){
 //
-//    @Override
-//    public LivroModel atualizarLivro(LivroModel livroModel) throws BadRequestException {
-//        return tratativarParaAtualizarLivro(livroModel);
+//        return recu;
 //    }
-//
-//    @Override
-//    public LivroModel recuperarLivroPorId(long idLivro) {
-//        return livroRepository.findByIdLivro(idLivro);
-//    }
-//
-//    @Override
-//    public List<LivroModel> listarLivro(){
-//        return livroRepository.findAll();
-//    }
-//
-//    @Override
-//    public void deletarLivros(){
-//        livroRepository.deleteAll();
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void deletarLivroPorIdLivro(Long idLivro){
-//        if (livroRepository.existsByIdLivro(idLivro)) {
-//            livroRepository.deleteByIdLivro(idLivro);
-//        } else {
-//            throw new RuntimeException("Livro com id " + idLivro + " não encontrado");
-//        }
-//    }
+
 }
