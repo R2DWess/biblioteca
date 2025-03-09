@@ -1,5 +1,6 @@
 package br.com.wzzy.biblioteca.controller;
 
+import br.com.wzzy.biblioteca.dto.ClienteDTO;
 import br.com.wzzy.biblioteca.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,24 +20,24 @@ public class ClienteController {
     }
 
     @PostMapping("/cadastrar")
-    public ClienteModel cadastrarCliente (@RequestBody ClienteModel clienteModel){
+    public ClienteDTO cadastrarCliente(@RequestBody ClienteDTO clienteModel){
         return clienteService.cadastrarCliente(clienteModel);
     }
-
-    @GetMapping("listar-clientes")
-    public List<ClienteModel> listarClientes (){
-        return clienteService.listarClientes();
-    }
-
-    @DeleteMapping("deletar/{idCliente}")
-    public void deletarClientePorId(@PathVariable Long idCliente) {
-        clienteService.deletarClientePorId(idCliente);
-    }
-
-    @DeleteMapping("/deletar-todos-clientes")
-    public void deletarTodosClientes(){
-        clienteService.deletarTodosClientes();
-
-    }
+//
+//    @GetMapping("listar-clientes")
+//    public List<ClienteModel> listarClientes (){
+//        return clienteService.listarClientes();
+//    }
+//
+//    @DeleteMapping("deletar/{idCliente}")
+//    public void deletarClientePorId(@PathVariable Long idCliente) {
+//        clienteService.deletarClientePorId(idCliente);
+//    }
+//
+//    @DeleteMapping("/deletar-todos-clientes")
+//    public void deletarTodosClientes(){
+//        clienteService.deletarTodosClientes();
+//
+//    }
 
 }

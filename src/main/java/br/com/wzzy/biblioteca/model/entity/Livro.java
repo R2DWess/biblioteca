@@ -1,5 +1,7 @@
 package br.com.wzzy.biblioteca.model.entity;
 
+import br.com.wzzy.biblioteca.model.enums.CategoriaLivroEnum;
+import br.com.wzzy.biblioteca.model.enums.StatusLivroEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,4 +21,10 @@ public class Livro {
     private Long idLivro;
     private String titulo;
     private String autor;
+
+    @Enumerated(EnumType.STRING)
+    private CategoriaLivroEnum categoriaLivroEnum;
+
+    @Enumerated(EnumType.STRING)
+    private StatusLivroEnum statusLivroEnum;
 }
