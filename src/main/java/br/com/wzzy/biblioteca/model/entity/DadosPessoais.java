@@ -22,8 +22,8 @@ public class DadosPessoais {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "contato_idContato")
-
     private Contato contato;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_idEndereco")
     private Endereco endereco;

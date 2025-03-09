@@ -6,16 +6,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface LivroRepository extends JpaRepository<Livro, Long> {
-    Livro findByIdLivro(long idLivro);
-
-    void deleteByIdLivro(Long idLivro);
-
-    boolean existsByIdLivro(Long idLivro);
-
-    long idLivro(Long idLivro);
-
-    boolean existsByTituloLivro(String tituloLivro);
-
-    Optional<Livro> findByTituloLivroAndAutorAndCategoria(String titulo, String categoria, String autor);
-
+//    Livro findByIdLivro(long idLivro);
+//
+//    void deleteByIdLivro(Long idLivro);
+//
+//    boolean existsByIdLivro(Long idLivro);
+//
+//    long idLivro(Long idLivro);
+//
+//    boolean existsByTituloLivro(String tituloLivro);
+//
+//    Optional<Livro> findByTituloLivroAndAutorAndCategoria(String titulo, String categoria, String autor);
+//
+//}
 }
