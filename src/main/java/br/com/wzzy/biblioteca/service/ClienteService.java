@@ -11,12 +11,9 @@ public interface ClienteService {
 
     ClienteDTO atualizarCliente(ClienteDTO clienteDTO);
 
-    Cliente encontrarClientePorId(Long idCliente);
+    ClienteDTO buscarClienteId(Long idCliente);
 
-    List<Cliente> listarClientes();
+    List<ClienteDTO> listarClientes();
 
     void deletarCliente(Long idCliente);
-
-    @Transactional
-    void deletarTodosClientes();
 }

@@ -11,11 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class EnderecoDTO {
 
-    private Long idEndereco;
-    private String rua;
-    private String bairro;
-    private String cidade;
-    private String estado;
-    private String pais;
-    private String cep;
+    private Long idEnderecoDTO;
+    private String ruaDTO;
+    private String bairroDTO;
+    private String cidadeDTO;
+    private String estadoDTO;
+    private String paisDTO;
+    private String cepDTO;
 }

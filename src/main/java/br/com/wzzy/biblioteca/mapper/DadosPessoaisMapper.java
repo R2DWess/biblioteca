@@ -1,84 +1,43 @@
 package br.com.wzzy.biblioteca.mapper;
 
-import br.com.wzzy.biblioteca.dto.ContatoDTO;
 import br.com.wzzy.biblioteca.dto.DadosPessoaisDTO;
-import br.com.wzzy.biblioteca.dto.EnderecoDTO;
-import br.com.wzzy.biblioteca.model.entity.Contato;
 import br.com.wzzy.biblioteca.model.entity.DadosPessoais;
-import br.com.wzzy.biblioteca.model.entity.Endereco;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
-public class DadosPessoaisMapper {
+@Mapper
+public interface DadosPessoaisMapper {
 
-    public static DadosPessoais paraEntidadeDadosPessoais(DadosPessoaisDTO dadosPessoaisDTO) {
-        if (dadosPessoaisDTO == null) return null;
+    DadosPessoaisMapper INSTANCE = Mappers.getMapper(DadosPessoaisMapper.class);
 
-        DadosPessoais dadosPessoais = new DadosPessoais();
-        dadosPessoais.setIdDadosPessoais(dadosPessoaisDTO.getIdDadosPesoais());
-        dadosPessoais.setNome(dadosPessoaisDTO.getNome());
-        dadosPessoais.setCpf(dadosPessoaisDTO.getCpf());
-        dadosPessoais.setContato(paraEntidadeContato(dadosPessoaisDTO.getContatoDTO()));
-        dadosPessoais.setEndereco(paraEntidadeEndereco(dadosPessoaisDTO.getEnderecoDTO()));
-        return dadosPessoais;
-    }
+    @Mapping(source = "idDadosPessoais", target = "idDadosPesoaisDTO")
+    @Mapping(source = "nome", target = "nomeDTO")
+    @Mapping(source = "cpf", target = "cpfDTO")
+    @Mapping(source = "contato.idContato", target = "contatoDTO.idContatoDTO")
+    @Mapping(source = "contato.telefone", target = "contatoDTO.telefoneDTO")
+    @Mapping(source = "contato.email", target = "contatoDTO.emailDTO")
+    @Mapping(source = "endereco.idEndereco", target = "enderecoDTO.idEnderecoDTO")
+    @Mapping(source = "endereco.rua", target = "enderecoDTO.ruaDTO")
+    @Mapping(source = "endereco.bairro", target = "enderecoDTO.bairroDTO")
+    @Mapping(source = "endereco.cidade", target = "enderecoDTO.cidadeDTO")
+    @Mapping(source = "endereco.estado", target = "enderecoDTO.estadoDTO")
+    @Mapping(source = "endereco.pais", target = "enderecoDTO.paisDTO")
+    @Mapping(source = "endereco.cep", target = "enderecoDTO.cepDTO")
+    DadosPessoaisDTO paraDadosPessoaisDTO(DadosPessoais dadosPessoais);
 
-    public static Contato paraEntidadeContato(ContatoDTO contatoDTO){
-        if (contatoDTO == null) return null;
-
-        Contato contato = new Contato();
-        contato.setIdContato(contatoDTO.getIdContato());
-        contato.setEmail(contatoDTO.getEmail());
-        contato.setTelefone(contatoDTO.getTelefone());
-
-        return contato;
-    }
-
-    public static Endereco paraEntidadeEndereco(EnderecoDTO enderecoDTO){
-        if (enderecoDTO == null) return null;
-
-        Endereco endereco = new Endereco();
-        endereco.setRua(enderecoDTO.getRua());
-        endereco.setBairro(enderecoDTO.getBairro());
-        endereco.setCidade(enderecoDTO.getCidade());
-        endereco.setEstado(enderecoDTO.getEstado());
-        endereco.setPais(enderecoDTO.getPais());
-        endereco.setCep(enderecoDTO.getCep());
-
-        return endereco;
-    }
-
-    public static ContatoDTO paraContatoDTO(Contato contato) {
-        if (contato == null) return null;
-
-        return new ContatoDTO(
-                contato.getIdContato(),
-                contato.getEmail(),
-                contato.getTelefone()
-        );
-    }
-
-    public static EnderecoDTO paraEnderecoDTO(Endereco endereco) {
-        if (endereco == null) return null;
-
-        return new EnderecoDTO(
-                endereco.getIdEndereco(),
-                endereco.getRua(),
-                endereco.getBairro(),
-                endereco.getCidade(),
-                endereco.getEstado(),
-                endereco.getPais(),
-                endereco.getCep()
-        );
-    }
-
-    public static DadosPessoaisDTO paraDadosPessoasiDTO(DadosPessoais dadosPessoais){
-        if (dadosPessoais == null) return null;
-
-        return new DadosPessoaisDTO(
-                dadosPessoais.getIdDadosPessoais(),
-                dadosPessoais.getNome(),
-                dadosPessoais.getCpf(),
-                paraContatoDTO(dadosPessoais.getContato()),
-                paraEnderecoDTO(dadosPessoais.getEndereco()));
-
-    }
+    @Mapping(source = "idDadosPesoaisDTO", target = "idDadosPessoais")
+    @Mapping(source = "nomeDTO", target = "nome")
+    @Mapping(source = "cpfDTO", target = "cpf")
+    @Mapping(source = "contatoDTO.idContatoDTO", target = "contato.idContato")
+    @Mapping(source = "contatoDTO.telefoneDTO", target = "contato.telefone")
+    @Mapping(source = "contatoDTO.emailDTO", target = "contato.email")
+    @Mapping(source = "enderecoDTO.idEnderecoDTO", target = "endereco.idEndereco")
+    @Mapping(source = "enderecoDTO.ruaDTO", target = "endereco.rua")
+    @Mapping(source = "enderecoDTO.bairroDTO", target = "endereco.bairro")
+    @Mapping(source = "enderecoDTO.cidadeDTO", target = "endereco.cidade")
+    @Mapping(source = "enderecoDTO.estadoDTO", target = "endereco.estado")
+    @Mapping(source = "enderecoDTO.paisDTO", target = "endereco.pais")
+    @Mapping(source = "enderecoDTO.cepDTO", target = "endereco.cep")
+    DadosPessoais paraDadosPessoais(DadosPessoaisDTO dadosPessoaisDTO);
 }

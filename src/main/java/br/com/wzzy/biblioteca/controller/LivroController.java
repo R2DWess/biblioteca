@@ -7,6 +7,7 @@ import br.com.wzzy.biblioteca.model.entity.Livro;
 import br.com.wzzy.biblioteca.repository.LivroRepository;
 import br.com.wzzy.biblioteca.service.LivroService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class LivroController {
     }
 
     @PostMapping
-    public ResponseEntity<LivroDTO> cadastrarLivro(@RequestBody LivroDTO livroDTO) {
+    public ResponseEntity<LivroDTO> cadastrarLivro(@Valid @RequestBody LivroDTO livroDTO) {
         LivroDTO novoLivro = livroService.cadastrarLivro(livroDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(novoLivro);
     }
@@ -45,19 +46,13 @@ public class LivroController {
     }
 
     @DeleteMapping("deletar/{idLivro}")
-    public void deletarLivroPorId(@PathVariable Long idLivro) {
+    public void deletarLivroId(@PathVariable Long idLivro) {
         livroService.deletarLivroPorId(idLivro);
     }
 
-    @DeleteMapping("deletar-todos")
-    public void deletarTodos(){
-        livroService.deletarTodos();
-    }
-
     @GetMapping("livro/{idLivro}")
-    public List<Livro> recuperarLivro(@PathVariable Long idLivro) {
-
-       return  livroService.recuperarLivroPorIdLivro(idLivro);
+    public LivroDTO buscarLivroId(@PathVariable Long idLivro) {
+       return  livroService.buscarLivroId(idLivro);
 
     }
 

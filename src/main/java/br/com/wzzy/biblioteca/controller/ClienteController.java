@@ -3,6 +3,7 @@ package br.com.wzzy.biblioteca.controller;
 import br.com.wzzy.biblioteca.dto.ClienteDTO;
 import br.com.wzzy.biblioteca.model.entity.Cliente;
 import br.com.wzzy.biblioteca.service.ClienteService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ public class ClienteController {
     }
 
     @PostMapping("/cadastrar")
-    public ClienteDTO cadastrarCliente(@RequestBody ClienteDTO clienteDTO){
+    public ClienteDTO cadastrarCliente(@Valid @RequestBody ClienteDTO clienteDTO){
         return clienteService.cadastrarCliente(clienteDTO);
     }
 
@@ -31,7 +32,7 @@ public class ClienteController {
     }
 
     @GetMapping("/listar-clientes")
-    public List<Cliente> listarClientes(){
+    public List<ClienteDTO> listarClientes(){
         return clienteService.listarClientes();
     }
 
@@ -40,13 +41,8 @@ public class ClienteController {
         clienteService.deletarCliente(idCliente);
     }
 
-    @DeleteMapping("/deletar-todos")
-    public void deletarTodosClientes(){
-        clienteService.deletarTodosClientes();
-    }
-
     @GetMapping("/{idCliente}")
-    public Cliente encontrarClientePorId(@PathVariable Long idCliente){
-        return clienteService.encontrarClientePorId(idCliente);
+    public ClienteDTO encontrarClientePorId(@PathVariable Long idCliente){
+        return clienteService.buscarClienteId(idCliente);
     }
 }
