@@ -20,7 +20,7 @@ public interface LivroMapper {
     @Mapping(source = "dadosLivro.ano", target = "dadosLivroDTO.anoDTO")
     @Mapping(source = "dadosLivro.categoria", target = "dadosLivroDTO.categoriaLivroEnumDTO")
     @Mapping(source = "dadosLivro.status", target = "dadosLivroDTO.statusLivroEnumDTO")
-    LivroDTO paraLivroDTO(Livro cliente);
+    LivroDTO paraLivroDTO(Livro livro);
 
     @Mapping(source = "idLivroDTO", target = "idLivro")
     @Mapping(source = "dadosLivroDTO.idDadosLivroDTO", target = "dadosLivro.idDadosLivros")
@@ -31,5 +31,5 @@ public interface LivroMapper {
     @Mapping(source = "dadosLivroDTO.anoDTO", target = "dadosLivro.ano")
     @Mapping(source = "dadosLivroDTO.categoriaLivroEnumDTO", target = "dadosLivro.categoria")
     @Mapping(source = "dadosLivroDTO.statusLivroEnumDTO", target = "dadosLivro.status")
-    Livro paraLivro(LivroDTO cliente);
+    Livro paraLivro(LivroDTO livroDTO);
 }
