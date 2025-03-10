@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ClienteDTO {
 
-    private Long idCliente;
+    private Long idClienteDTO;
     private DadosPessoaisDTO dadosPessoaisDTO;
 
 }

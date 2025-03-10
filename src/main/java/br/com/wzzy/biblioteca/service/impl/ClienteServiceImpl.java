@@ -1,7 +1,6 @@
 package br.com.wzzy.biblioteca.service.impl;
 
 import br.com.wzzy.biblioteca.dto.ClienteDTO;
-import br.com.wzzy.biblioteca.exception.ClienteCadastradoException;
 import br.com.wzzy.biblioteca.exception.ClienteNaoEncontradoException;
 import br.com.wzzy.biblioteca.mapper.ClienteMapper;
 import br.com.wzzy.biblioteca.model.entity.Cliente;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteServiceImpl implements ClienteService {
@@ -25,61 +25,44 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public ClienteDTO cadastrarCliente(ClienteDTO clienteDTO) {
-        if (clienteDTO == null || clienteDTO.getDadosPessoaisDTO().getNome().isEmpty()) {
-            throw new ClienteCadastradoException("Dados incorretos!");
-        }
 
-        Cliente cliente = ClienteMapper.paraEntidadeCliente(clienteDTO);
+        Cliente cliente = ClienteMapper.INSTANCE.paraEntidadeCliente(clienteDTO);
         Cliente clienteSalvo = clienteRepository.save(cliente);
-        return ClienteMapper.paraClienteDTO(clienteSalvo);
+        return ClienteMapper.INSTANCE.paraClienteDTO(clienteSalvo);
     }
 
     @Override
     public ClienteDTO atualizarCliente(ClienteDTO clienteDTO) {
 
-        Cliente clienteExistente = encontrarClientePorId(clienteDTO.getIdCliente());
+        buscarClienteId(clienteDTO.getIdClienteDTO());
 
-        return cadastrarCliente(clienteDTO);
+        return clienteDTO = cadastrarCliente(clienteDTO);
 
     }
 
     @Override
-    public Cliente encontrarClientePorId(Long idCliente){
-
-        if (idCliente == null) {
-            throw new ClienteNaoEncontradoException("ID do cliente não pode ser nulo.");
-        }
-
-        Cliente cliente = clienteRepository.findByIdCliente(idCliente);
-        if (cliente == null) {
-            throw new ClienteNaoEncontradoException("O cliente com o ID " + idCliente + " não foi encontrado.");
-        }
-
-
-        return cliente;
+    public ClienteDTO buscarClienteId(Long idCliente) {
+        Cliente clientes = clienteRepository.findByIdCliente(idCliente)
+                .orElseThrow(() -> new ClienteNaoEncontradoException("Cliente com id " + idCliente + " não encontrado!"));
+        return ClienteMapper.INSTANCE.paraClienteDTO(clientes);
     }
 
-
     @Override
-    public List<Cliente> listarClientes() {
+    public List<ClienteDTO> listarClientes() {
+
         List<Cliente> clientes = clienteRepository.findAll();
-        if (clientes.isEmpty()) {
-            throw new ClienteNaoEncontradoException("Nenhum cliente encontrado.");
-        }
-        return clientes;
+
+        return clientes.stream()
+                .map(ClienteMapper.INSTANCE::paraClienteDTO)
+                .collect(Collectors.toList());
     }
 
     @Transactional
     @Override
     public void deletarCliente(Long idCliente) {
-        Cliente clienteExistente = encontrarClientePorId(idCliente);
-        clienteRepository.deleteByIdCliente(clienteExistente.getIdCliente());
-    }
 
-    @Transactional
-    @Override
-    public void deletarTodosClientes(){
-        clienteRepository.deleteAll();
-    }
+        ClienteDTO clienteExistente = buscarClienteId(idCliente);
 
+        clienteRepository.deleteByIdCliente(clienteExistente.getIdClienteDTO());
+    }
 }

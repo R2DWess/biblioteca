@@ -13,14 +13,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "livro")
-public class Livro {
+@Table(name = "dados_livro")
+public class DadosLivro {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idLivro;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "dados_livro_idDadosLivro")
-    private DadosLivro dadosLivro;
+    private Long idDadosLivros;
+    private String titulo;
+    private String autor;
+    private String ISBN;
+    private String editora;
+    private String ano;
+    @Enumerated(EnumType.STRING)
+    private CategoriaLivroEnum categoria;
+    @Enumerated(EnumType.STRING)
+    private StatusLivroEnum status;
 }
