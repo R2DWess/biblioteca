@@ -1,12 +1,9 @@
 package br.com.wzzy.biblioteca.controller;
 
 import br.com.wzzy.biblioteca.dto.LivroDTO;
-import br.com.wzzy.biblioteca.exception.LivroCadastradoException;
-import br.com.wzzy.biblioteca.mapper.LivroMapper;
 import br.com.wzzy.biblioteca.model.entity.Livro;
 import br.com.wzzy.biblioteca.repository.LivroRepository;
 import br.com.wzzy.biblioteca.service.LivroService;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
