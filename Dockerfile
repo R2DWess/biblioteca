@@ -2,6 +2,13 @@
 FROM gradle:8.12-jdk17 AS builder
 WORKDIR /app
 
+# Instalar Java 23 manualmente no container
+RUN apt-get update && apt-get install -y openjdk-23-jdk
+
+# Definir JAVA_HOME para Gradle encontrar o JDK correto
+ENV JAVA_HOME=/usr/lib/jvm/java-23-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
+
 # Copia apenas os arquivos necessários para otimizar o cache
 COPY build.gradle settings.gradle gradlew ./
 COPY gradle ./gradle
@@ -12,7 +19,7 @@ COPY src ./src
 RUN ./gradlew build -x test --no-daemon  # Compila sem testes para agilizar
 
 # Etapa de produção
-FROM openjdk:17-jdk-slim
+FROM openjdk:23-jdk-slim
 WORKDIR /app
 
 # Copia apenas o JAR gerado na etapa de build
