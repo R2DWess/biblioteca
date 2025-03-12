@@ -1,4 +1,4 @@
-# This workflow builds a Java project with Gradle, runs tests, and publishes a Docker image.
+# Workflow para CI/CD do projeto Java com Gradle e Docker
 
 name: Java CI/CD with Gradle and Docker
 
@@ -34,41 +34,51 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 23
+      # Configurar JDK 21 (compatível com o Dockerfile)
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '23'
+          java-version: '21'
           distribution: 'temurin'
 
-      # Configure Gradle for optimal use in GitHub Actions, including caching dependencies.
+      # Configurar Gradle
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      # Cache do Gradle para acelerar builds
       - name: Cache Gradle packages
         uses: actions/cache@v3
         with:
-          path: ~/.gradle/caches
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
 
-      - name: Verificar status do MySQL antes dos testes
-        run: |
-          sudo apt-get install -y mysql-client
-          mysql --host=127.0.0.1 --user=root --password=root -e "SHOW DATABASES;"
-
-      # ✅ Adicionando permissão de execução para o gradlew
+      # Conceder permissão de execução para gradlew
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      # Configurar variáveis de ambiente do MySQL
       - name: Configurar variáveis de ambiente
         run: |
           echo "SPRING_DATASOURCE_URL=jdbc:mysql://127.0.0.1:3306/biblioteca" >> $GITHUB_ENV
           echo "SPRING_DATASOURCE_USERNAME=root" >> $GITHUB_ENV
           echo "SPRING_DATASOURCE_PASSWORD=root" >> $GITHUB_ENV 
 
-      # Compilar o projeto com Gradle Wrapper
+      # Aguardar MySQL estar pronto
+      - name: Aguardar MySQL estar pronto
+        run: |
+          echo "Aguardando MySQL iniciar..."
+          for i in {1..30}; do
+            mysqladmin ping --host=127.0.0.1 --user=root --password=root && break
+            echo "MySQL ainda não está pronto... tentando novamente..."
+            sleep 2
+          done
+
+      # Build e execução dos testes com Gradle
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: ./gradlew build --no-daemon
 
   docker:
 
@@ -78,7 +88,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Login no Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        run: echo "${{ secrets.DOCKER_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Build da Imagem Docker
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/biblioteca:latest .
@@ -95,12 +105,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 23
+      # Configurar JDK 21 para análise de dependências
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '23'
+          java-version: '21'
           distribution: 'temurin'
 
-      # Gera e envia o gráfico de dependências para ativar Dependabot Alerts
       - name: Generate and submit dependency graph
         uses: gradle/actions/dependency-submission@v4
