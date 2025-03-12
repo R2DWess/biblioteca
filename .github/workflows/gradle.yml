@@ -61,11 +61,11 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # Exibir status do MySQL para debug
-      - name: Verificar status do MySQL
+      - name: Configurar variáveis de ambiente
         run: |
-          sudo apt-get install -y mysql-client
-          mysql --host=127.0.0.1 --user=root --password=root -e "SHOW DATABASES;"
+          echo "SPRING_DATASOURCE_URL=jdbc:mysql://127.0.0.1:3306/biblioteca" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_USERNAME=root" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_PASSWORD=root" >> $GITHUB_ENV 
 
       # Compilar o projeto com Gradle Wrapper
       - name: Build with Gradle Wrapper
