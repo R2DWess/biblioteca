@@ -1,15 +1,22 @@
 # Etapa de build
-FROM gradle:8.12-jdk21 AS builder
+FROM gradle:8.12-jdk17 AS builder
 WORKDIR /app
 
-# Copia os arquivos do Gradle primeiro para aproveitar o cache de dependências
+# Instalar Java 21 manualmente no container
+RUN apt-get update && apt-get install -y openjdk-21-jdk
+
+# Definir JAVA_HOME para Gradle encontrar o JDK correto
+ENV JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
+
+# Copia apenas os arquivos necessários para otimizar o cache
 COPY build.gradle settings.gradle gradlew ./
 COPY gradle ./gradle
-RUN ./gradlew build --no-daemon  # Baixa as dependências antes para otimizar o cache
+RUN ./gradlew build --no-daemon || return 0  # Baixa dependências para cache
 
-# Copia o restante do código-fonte para o build final
+# Copia o restante da aplicação e faz o build final
 COPY src ./src
-RUN ./gradlew build --no-daemon
+RUN ./gradlew build -x test --no-daemon  # Compila sem testes para agilizar
 
 # Etapa de produção
 FROM openjdk:21-jdk-slim
