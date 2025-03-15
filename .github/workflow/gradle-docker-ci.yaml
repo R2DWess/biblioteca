@@ -1,5 +1,3 @@
-# This workflow builds a Java project with Gradle, runs tests, and publishes a Docker image.
-
 name: Java CI/CD with Gradle and Docker
 
 on:
@@ -19,14 +17,14 @@ jobs:
       mysql:
         image: mysql:8
         env:
-          MYSQL_ROOT_PASSWORD: root
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: biblioteca
           MYSQL_USER: user
           MYSQL_PASSWORD: password
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping --host=localhost --user=root --password=root"
+          --health-cmd="mysqladmin ping --host=localhost --user=user --password=password"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -40,7 +38,7 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      # Configure Gradle for optimal use in GitHub Actions, including caching dependencies.
+      # Configurar Gradle e cache de dependências
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
@@ -51,22 +49,29 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
 
-      - name: Verificar status do MySQL antes dos testes
+      # ✅ Verificar status do MySQL antes dos testes
+      - name: Verificar conexão com MySQL
         run: |
           sudo apt-get install -y mysql-client
-          mysql --host=127.0.0.1 --user=root --password=root -e "SHOW DATABASES;"
+          until mysql --host=127.0.0.1 --user=user --password=password -e "SHOW DATABASES;"; do
+            echo "Aguardando MySQL..."
+            sleep 5
+          done
+          echo "MySQL está pronto!"
 
-      # ✅ Adicionando permissão de execução para o gradlew
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Configurar variáveis de ambiente
         run: |
           echo "SPRING_DATASOURCE_URL=jdbc:mysql://127.0.0.1:3306/biblioteca" >> $GITHUB_ENV
-          echo "SPRING_DATASOURCE_USERNAME=root" >> $GITHUB_ENV
-          echo "SPRING_DATASOURCE_PASSWORD=root" >> $GITHUB_ENV 
+          echo "SPRING_DATASOURCE_USERNAME=user" >> $GITHUB_ENV
+          echo "SPRING_DATASOURCE_PASSWORD=password" >> $GITHUB_ENV 
 
-      # Compilar o projeto com Gradle Wrapper
+      # ✅ Exibir logs do MySQL para debugging antes de rodar os testes
+      - name: Exibir logs do MySQL
+        run: docker logs $(docker ps -q --filter ancestor=mysql:8)
+
       - name: Build with Gradle Wrapper
         run: ./gradlew build
 
@@ -101,6 +106,5 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      # Gera e envia o gráfico de dependências para ativar Dependabot Alerts
       - name: Generate and submit dependency graph
         uses: gradle/actions/dependency-submission@v4
