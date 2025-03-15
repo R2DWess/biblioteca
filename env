@@ -1,0 +1,13 @@
+# ==============================
+# ⚡ Configuração para MySQL Local
+# ==============================
+SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/biblioteca
+SPRING_DATASOURCE_USERNAME=root
+SPRING_DATASOURCE_PASSWORD=262419
+
+# ==============================
+# 🐳 Configuração para MySQL no Docker
+# ==============================
+DOCKER_DATASOURCE_URL=jdbc:mysql://mysql:3306/biblioteca
+DOCKER_DATASOURCE_USERNAME=user
+DOCKER_DATASOURCE_PASSWORD=password
