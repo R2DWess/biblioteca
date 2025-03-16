@@ -18,7 +18,7 @@ Projeto voltado para a criação de um sistema de gerenciamento de biblioteca, p
 8. 📝 Relatórios de livros emprestados.
 
 #### 🛠️ Tecnologias utilizadas:
-- ☕ Java 23;
+- ☕ Java 17;
 - 🍃 Spring Boot;
 - 🐘 Gradle;
 - 🗃️ JPA;
