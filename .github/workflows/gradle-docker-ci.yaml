@@ -32,14 +32,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # ✅ Alterado para JDK 17
+      # ✅ JDK 17 (Melhor compatibilidade e performance)
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # Configurar Gradle e cache de dependências
+      # ⚡ Configura Gradle e Cache (Melhora performance do CI)
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
@@ -50,12 +50,13 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
 
-      # ✅ Verificar status do MySQL antes dos testes
+      # ✅ Aguarda MySQL estar pronto antes de rodar testes
       - name: Verificar conexão com MySQL
         run: |
           sudo apt-get install -y mysql-client
+          echo "Aguardando MySQL estar pronto..."
           until mysql --host=127.0.0.1 --user=user --password=password -e "SHOW DATABASES;"; do
-            echo "Aguardando MySQL..."
+            echo "MySQL ainda não está pronto... tentando novamente em 5s"
             sleep 5
           done
           echo "MySQL está pronto!"
@@ -69,12 +70,12 @@ jobs:
           echo "SPRING_DATASOURCE_USERNAME=user" >> $GITHUB_ENV
           echo "SPRING_DATASOURCE_PASSWORD=password" >> $GITHUB_ENV 
 
-      # ✅ Exibir logs do MySQL para debugging antes de rodar os testes
+      # 🔍 Exibir logs do MySQL para debugging antes de rodar os testes
       - name: Exibir logs do MySQL
         run: docker logs $(docker ps -q --filter ancestor=mysql:8)
 
       - name: Build with Gradle Wrapper
-        run: ./gradlew build
+        run: ./gradlew build --no-daemon
 
   docker:
 
