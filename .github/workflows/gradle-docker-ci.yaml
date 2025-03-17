@@ -30,20 +30,21 @@ jobs:
           --health-retries=5
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout do código
+        uses: actions/checkout@v4
 
       # ✅ JDK 17 (Melhor compatibilidade e performance)
-      - name: Set up JDK 17
+      - name: Configurar JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
       # ⚡ Configura Gradle e Cache (Melhora performance do CI)
-      - name: Setup Gradle
+      - name: Configurar Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Cache Gradle packages
+      - name: Cache do Gradle
         uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
@@ -55,26 +56,24 @@ jobs:
         run: |
           sudo apt-get install -y mysql-client
           echo "Aguardando MySQL estar pronto..."
-          until mysql --host=127.0.0.1 --user=user --password=password -e "SHOW DATABASES;"; do
+          until mysql --host=127.0.0.1 --user=user --password=password -e "SELECT 1"; do
             echo "MySQL ainda não está pronto... tentando novamente em 5s"
             sleep 5
           done
           echo "MySQL está pronto!"
 
-      - name: Grant execute permission for gradlew
+      - name: Conceder permissão de execução ao Gradle Wrapper
         run: chmod +x gradlew
 
-      - name: Configurar variáveis de ambiente
+      - name: Configurar variáveis de ambiente para o Gradle
         run: |
-          echo "SPRING_DATASOURCE_URL=jdbc:mysql://127.0.0.1:3306/biblioteca" >> $GITHUB_ENV
-          echo "SPRING_DATASOURCE_USERNAME=user" >> $GITHUB_ENV
-          echo "SPRING_DATASOURCE_PASSWORD=password" >> $GITHUB_ENV 
+          echo "SPRING_PROFILES_ACTIVE=docker" >> $GITHUB_ENV
 
       # 🔍 Exibir logs do MySQL para debugging antes de rodar os testes
       - name: Exibir logs do MySQL
         run: docker logs $(docker ps -q --filter ancestor=mysql:8)
 
-      - name: Build with Gradle Wrapper
+      - name: Build e Testes com Gradle
         run: ./gradlew build --no-daemon
 
   docker:
@@ -82,7 +81,8 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout do código
+        uses: actions/checkout@v4
 
       - name: Login no Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
@@ -100,13 +100,14 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout do código
+        uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Configurar JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Generate and submit dependency graph
+      - name: Gerar e submeter o gráfico de dependências
         uses: gradle/actions/dependency-submission@v4
