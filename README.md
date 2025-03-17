@@ -17,6 +17,48 @@ Projeto voltado para a criação de um sistema de gerenciamento de biblioteca, p
 7. 🔄 Registro de devoluções e cálculo de multas;
 8. 📝 Relatórios de livros emprestados.
 
+#### Métodos de execução:
+
+### 🖥️ **1️⃣ Rodar Localmente**
+Para executar o projeto localmente, será usar o MySQl como banco de dados. Para isso, siga os passos abaixo:
+
+⚙️ **Credenciais padrão para MySQL local:**
+- **Usuário:** `root`
+- **Senha:** `123456789`
+- **Banco de Dados:** `biblioteca`
+
+> 💡 **Altere essas credenciais no arquivo** `application-local.properties` **caso necessário.**
+
+### 🔄 **2️⃣ Rodar com Docker**
+Se quiser rodar o **backend e o banco de dados via Docker**, siga estes passos:
+1. Construir a imagem do backend:
+```sh
+docker build -t biblioteca:latest .
+``` 
+2. Subir o container:
+```sh
+docker-compose up -d
+``` 
+(Observação: Por padrão, o spring usará as credenciais do Docker:
+- **Usuário)** `user`
+- **Senha:** `password`
+- **Banco de Dados:** `biblioteca`)
+
+3. Para parar o container:
+```sh
+docker-compose down
+```
+
+### Como modificar a conexão com o banco?
+- Se você quiser usar um banco local, modifique o arquivo 'application-local.properties'.
+- Se quiser rodar com Docker, ele já está configurado para MySQL dentro do container.
+
+
+
+### 2️⃣ **Rodar o projeto**
+```sh
+./gradlew bootRun
+
 #### 🛠️ Tecnologias utilizadas:
 - ☕ Java 17;
 - 🍃 Spring Boot;
