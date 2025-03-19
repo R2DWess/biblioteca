@@ -65,9 +65,9 @@ jobs:
       - name: Conceder permissão de execução ao Gradle Wrapper
         run: chmod +x gradlew
 
-      - name: Configurar variáveis de ambiente para o Gradle
+      - name: Configurar variáveis de ambiente para rodar localmente
         run: |
-          echo "SPRING_PROFILES_ACTIVE=docker" >> $GITHUB_ENV
+          echo "SPRING_PROFILES_ACTIVE=local" >> $GITHUB_ENV
 
       # 🔍 Exibir logs do MySQL para debugging antes de rodar os testes
       - name: Exibir logs do MySQL
