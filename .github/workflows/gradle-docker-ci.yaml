@@ -17,14 +17,14 @@ jobs:
       mysql:
         image: mysql:8
         env:
-          MYSQL_ROOT_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: 262419
           MYSQL_DATABASE: biblioteca
-          MYSQL_USER: user
-          MYSQL_PASSWORD: password
+          MYSQL_USER: root
+          MYSQL_PASSWORD: 262419
         ports:
           - 3306:3306
         options: >-
-          --health-cmd="mysqladmin ping --host=localhost --user=user --password=password"
+          --health-cmd="mysqladmin ping --host=localhost --user=root --password=262419"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -33,14 +33,14 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      # ✅ JDK 17 (Melhor compatibilidade e performance)
+      # ✅ Configuração do JDK 17
       - name: Configurar JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
 
-      # ⚡ Configura Gradle e Cache (Melhora performance do CI)
+      # ⚡ Configuração do Gradle e Cache para melhor performance
       - name: Configurar Gradle
         uses: gradle/actions/setup-gradle@v4
 
@@ -55,8 +55,8 @@ jobs:
       - name: Verificar conexão com MySQL
         run: |
           sudo apt-get install -y mysql-client
-          echo "Aguardando MySQL estar pronto..."
-          until mysql --host=127.0.0.1 --user=user --password=password -e "SELECT 1"; do
+          echo "Aguardando MySQL iniciar..."
+          until mysql --host=127.0.0.1 --user=root --password=262419 -e "SHOW DATABASES;"; do
             echo "MySQL ainda não está pronto... tentando novamente em 5s"
             sleep 5
           done
